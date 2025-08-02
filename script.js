@@ -51,6 +51,7 @@ function conjugateVerb(word, tense) {
 
 // Adjective suffix
 function adjectiveForm(word) {
+    // Only add -lith to adjectives
     return word + 'lith';
 }
 
@@ -59,13 +60,22 @@ function translateSentence(sentence) {
     const words = sentence.split(/\b/);
     const translatedWords = words.map(word => {
         word = word.trim().toLowerCase();
+
+        // Check if it's a pronoun
         if (pronouns.nominative[word]) return pronouns.nominative[word];
         if (pronouns.genitive[word]) return pronouns.genitive[word];
+
+        // Apply correct suffix for verbs
         if (word.endsWith('ing')) return conjugateVerb(word, 'present');
         if (word.endsWith('ed')) return conjugateVerb(word, 'past');
-        if (word.endsWith('s')) return pluralizeNoun(word);
+        
+        // Apply pluralization for nouns
+        if (word.endsWith('s') || word.endsWith('a') || word.endsWith('e')) return pluralizeNoun(word);
+        
+        // Apply adjective suffix
         return adjectiveForm(word);
     });
+
     return translatedWords.join('');
 }
 
