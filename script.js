@@ -1,22 +1,23 @@
-// Function to generate a more controlled Norian word based on simplified phonetics
+// Function to generate a "Norian" word based on elvish sentence structure and modified rules
 function generateNorianWord(word) {
-    // Rule 1: Apply simple vowel transformations (only once per word)
+    // Rule 1: Apply vowel transformations (only once per word)
     let newWord = word.toLowerCase();
     
-    // Apply specific vowel changes: "a" -> "ae", "e" -> "ei", "i" -> "ei", "o" -> "ou", "u" -> "ou"
+    // Apply vowel changes: "a" -> "ae", "e" -> "ei", "i" -> "ii", "o" -> "ou", "u" -> "uu"
     newWord = newWord.replace(/a/g, "ae"); // "a" becomes "ae"
     newWord = newWord.replace(/e/g, "ei"); // "e" becomes "ei"
-    newWord = newWord.replace(/i/g, "ei"); // "i" becomes "ei"
+    newWord = newWord.replace(/i/g, "ii"); // "i" becomes "ii"
     newWord = newWord.replace(/o/g, "ou"); // "o" becomes "ou"
-    newWord = newWord.replace(/u/g, "ou"); // "u" becomes "ou"
+    newWord = newWord.replace(/u/g, "uu"); // "u" becomes "uu"
 
-    // Rule 2: Apply consonant shifts sparingly
-    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l" (smooth sound)
-    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v" (softer)
-    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th" (elven touch)
+    // Rule 2: Apply consonant shifts (only when necessary)
+    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
+    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
+    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
+    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
 
-    // Rule 3: Apply one suffix based on word category (noun/adjective)
-    let suffixes = ["iel", "ael", "ian"];
+    // Rule 3: Apply suffixes (depending on the word's meaning or context)
+    let suffixes = ["iel", "ael", "thiel", "ian"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     newWord = newWord + randomSuffix;
 
