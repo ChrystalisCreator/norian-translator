@@ -57,7 +57,7 @@ h3 {
   color: #333;
 }
 
-#modifiedGermanOutput, #germanOutput {
+#modifiedGermanOutput {
   white-space: pre-wrap;
   font-family: "Courier New", Courier, monospace;
   color: #555;
