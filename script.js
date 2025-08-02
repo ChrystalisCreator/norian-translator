@@ -56,7 +56,7 @@ function generateElvenWord(word) {
         return match;
     });
 
-    // Rule 4: Apply subtle consonant shifts
+    // Rule 4: Apply more subtle consonant shifts
     newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
     newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
     newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
