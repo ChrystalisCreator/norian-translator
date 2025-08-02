@@ -1,9 +1,9 @@
-// Function to generate a "Norian" word based on refined elven-like rules
+// Function to generate a "Norian" word based on controlled elven-like rules
 function generateElvenWord(word) {
-    // Rule 1: Apply elven-style suffix with subtlety
+    // Rule 1: Apply suffix only when needed
     let suffixes = ["iel", "ael", "ian", "ra"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    let newWord = word.toLowerCase() + randomSuffix;
+    let newWord = word.toLowerCase(); // Start with the word itself, lowercase
 
     // Rule 2: Apply subtle vowel changes for elven-like flow
     newWord = newWord.replace(/[aeiou]/g, (match) => {
@@ -15,14 +15,17 @@ function generateElvenWord(word) {
         return match;
     });
 
-    // Rule 3: Apply consonant shifts in a subtle way
-    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
-    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
-    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
-    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
+    // Apply suffix to the word
+    newWord = newWord + randomSuffix;
 
-    // Rule 4: Ensure open syllables for smoother sound (syllables that end in vowels)
-    newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2"); // Ensure a flowing vowel-consonant structure
+    // Rule 3: Apply consonant shifts only where it sounds natural
+    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l" (subtle shift)
+    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v" (softens the sound)
+    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th" (more elven)
+    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f" (softened consonant)
+
+    // Rule 4: Ensure open syllables (syllables that end in vowels are smoother)
+    newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2");
 
     // Rule 5: Capitalize the first letter if the original word was capitalized
     if (word.charAt(0) === word.charAt(0).toUpperCase()) {
