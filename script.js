@@ -26,28 +26,33 @@ const verbTenses = {
     "see": "varel"
 };
 
-// Function to generate a "Norian" word for unknown words
+// Function to generate a "Norian" word for unknown words with elven-like rules
 function generateElvenWord(word) {
-    // Rule 1: Add a suffix for unknown words
+    // Rule 1: Add an Elven-style suffix
     let newWord = word.toLowerCase() + "iel"; // Elven-style suffix "-iel"
 
     // Rule 2: Modify the word to make it sound more "elven"
-    // Change vowels to make it sound more melodic (vowel harmony)
+    // Add vowel combinations to make it smoother (e.g., "ae", "ei", "io", "ou")
     newWord = newWord.replace(/[aeiou]/g, (match) => {
-        if (match === "a") return "e"; // "a" becomes "e" for melodic sound
-        if (match === "e") return "i"; // "e" becomes "i" to smooth it
-        if (match === "o") return "a"; // "o" becomes "a" to soften it
-        if (match === "u") return "o"; // "u" becomes "o" for a rounded sound
+        if (match === "a") return "ae";  // "a" becomes "ae" for a smoother sound
+        if (match === "e") return "ei";  // "e" becomes "ei"
+        if (match === "i") return "ei"; // "i" becomes "ei"
+        if (match === "o") return "ou";  // "o" becomes "ou"
+        if (match === "u") return "ou"; // "u" becomes "ou"
         return match;
     });
 
     // Rule 3: Modify consonants to add elegance
-    // Replace harder consonants with softer ones like "l", "v", or "r"
+    // Replace harder consonants with softer ones like "l", "v", or "th"
     newWord = newWord.replace(/r/g, "l");  // Soft "r" to "l"
     newWord = newWord.replace(/t/g, "th"); // Hard "t" to "th"
     newWord = newWord.replace(/s/g, "v");  // Soft "s" to "v"
+    newWord = newWord.replace(/p/g, "f");  // Hard "p" to "f"
 
-    // Rule 4: Capitalize the first letter if the original word was capitalized
+    // Rule 4: Ensure open syllables for smoother sound (syllables that end in vowels)
+    newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2"); // Ensure a flowing vowel-consonant structure
+
+    // Rule 5: Capitalize the first letter if the original word was capitalized
     if (word.charAt(0) === word.charAt(0).toUpperCase()) {
         newWord = newWord.charAt(0).toUpperCase() + newWord.slice(1);
     }
