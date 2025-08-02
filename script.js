@@ -37,32 +37,30 @@ function generateElvenWord(word) {
     if (word.toLowerCase() === "too") {
         return "sai"; // "Too" should be "sai"
     }
+    if (word.toLowerCase() === "the") {
+        return "thal"; // "The" should be "thal"
+    }
     
-    // Rule 2: Add an Elven-style suffix
+    // Rule 2: Apply elven-style suffix with a bit more restraint
     let suffixes = ["iel", "ael", "ian", "ra"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     let newWord = word.toLowerCase() + randomSuffix;
 
-    // Rule 3: Modify the word to make it sound more "elven"
-    // Add smooth vowel combinations
+    // Rule 3: Modify vowels and consonants subtly for elven-like flow
     newWord = newWord.replace(/[aeiou]/g, (match) => {
-        if (match === "a") return "ae";  // "a" becomes "ae" for smoother sound
+        if (match === "a") return "ae";  // "a" becomes "ae"
         if (match === "e") return "ei";  // "e" becomes "ei"
         if (match === "i") return "ei"; // "i" becomes "ei"
-        if (match === "o") return "io";  // "o" becomes "io"
+        if (match === "o") return "ou";  // "o" becomes "ou"
         if (match === "u") return "ou"; // "u" becomes "ou"
         return match;
     });
 
-    // Rule 4: Modify consonants for a more subtle elven-like sound
-    // Replace "r" with "l" in some cases (but leave "r" when needed)
-    newWord = newWord.replace(/r/g, (match) => (Math.random() > 0.5 ? "l" : match));
-    // Replace "s" with "sh" for some softer words, "v" for others
-    newWord = newWord.replace(/s/g, (match) => (Math.random() > 0.5 ? "sh" : "v"));
-    // Replace "t" with "th" for a softer pronunciation
-    newWord = newWord.replace(/t/g, "th");
-    // Occasionally replace "p" with "f" for smoother flow
-    newWord = newWord.replace(/p/g, "f");
+    // Rule 4: Apply more subtle consonant shifts
+    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
+    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
+    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
+    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
 
     // Rule 5: Ensure open syllables for smoother sound (syllables that end in vowels)
     newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2"); // Ensure a flowing vowel-consonant structure
