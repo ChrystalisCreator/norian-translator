@@ -1,14 +1,20 @@
 // Function to translate English to Modified German
 function translateToModifiedGerman() {
-  let englishText = document.getElementById('englishInput').value;
-  console.log("Input text:", englishText); // Debugging line
+  // Ensure the element exists
+  const englishInput = document.getElementById('englishInput');
+  if (englishInput) {
+    let englishText = englishInput.value;
+    console.log("Input text:", englishText); // Debugging line
 
-  // Apply the translation rules for Modified German
-  let translatedText = translateTextToModifiedGerman(englishText);
+    // Apply the translation rules for Modified German
+    let translatedText = translateTextToModifiedGerman(englishText);
 
-  // Show the translated text in the output box
-  document.getElementById('modifiedGermanOutput').textContent = translatedText;
-  console.log("Translated text:", translatedText); // Debugging line
+    // Show the translated text in the output box
+    document.getElementById('modifiedGermanOutput').textContent = translatedText;
+    console.log("Translated text:", translatedText); // Debugging line
+  } else {
+    console.error('Error: The input element was not found.');
+  }
 }
 
 // Function to handle the translation process from English to Modified German
@@ -44,7 +50,7 @@ function applyVowelMutation(word) {
   });
 }
 
-// Rule: Handle consonant mutations (e.g., 't' → 'th')
+// Rule: Handle consonant mutations
 function applyConsonantMutation(word) {
   return word.replace(/[ntrl]/g, match => {
     switch (match) {
