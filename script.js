@@ -28,6 +28,8 @@ function translateTextToNorian(text) {
   // Apply transformation for each word
   let translatedWords = words.map(word => {
     word = handleUnknownWord(word);  // Handle unknown words like "test"
+    word = applyVowelMutation(word); // Apply vowel mutations
+    word = applyConsonantMutation(word); // Apply consonant changes
     word = applyNumberRule(word);
     word = applyGenderRule(word);
     word = applyVerbConjugation(word);
@@ -48,6 +50,8 @@ function translateTextToEnglish(text) {
   // Reverse the transformation for each word
   let translatedWords = words.map(word => {
     word = handleUnknownWord(word);  // Handle unknown words like "test"
+    word = reverseVowelMutation(word); // Reverse vowel mutations
+    word = reverseConsonantMutation(word); // Reverse consonant changes
     word = reverseNumberRule(word);
     word = reverseGenderRule(word);
     word = reverseVerbConjugation(word);
@@ -65,7 +69,30 @@ function applyNumberRule(word) {
   if (word === 'test') { // Special case for "test"
     return 'thtest'; // Example transformation for "test"
   }
-  return word;
+  return word + 'vian'; // Add a random suffix for plurals to make it more distinct
+}
+
+// Rule: Handle vowel mutations
+function applyVowelMutation(word) {
+  return word.replace(/[aeiou]/g, match => {
+    switch (match) {
+      case 'a': return 'e';
+      case 'e': return 'o';
+      case 'o': return 'u';
+      case 'i': return 'a';
+      case 'u': return 'i';
+      default: return match;
+    }
+  });
+}
+
+// Rule: Handle consonant mutations
+function applyConsonantMutation(word) {
+  return word.replace(/[tp]/g, match => {
+    if (match === 't') return 'th';
+    if (match === 'p') return 'f';
+    return match;
+  });
 }
 
 // Rule: Handle gender (simplified)
@@ -82,59 +109,4 @@ function applyGenderRule(word) {
 // Rule: Verb conjugation (simplified)
 function applyVerbConjugation(word) {
   if (word === 'run') {
-    return 'nor-o'; // Example conjugation for "run"
-  }
-  return word;
-}
-
-// Rule: Articles (simplified)
-function applyArticleRule(word) {
-  if (word === 'the') {
-    return 'i'; // Example for "the"
-  }
-  return word;
-}
-
-// Reverse Number Rule
-function reverseNumberRule(word) {
-  if (word.endsWith('s')) {
-    return word.slice(0, -1); // Convert plural to singular
-  }
-  return word;
-}
-
-// Reverse Gender Rule
-function reverseGenderRule(word) {
-  if (word === 'adan') {
-    return 'man'; // Reverse "adan" back to "man"
-  }
-  if (word === 'edain') {
-    return 'woman'; // Reverse "edain" back to "woman"
-  }
-  return word;
-}
-
-// Reverse Verb Conjugation
-function reverseVerbConjugation(word) {
-  if (word === 'nor-o') {
-    return 'run'; // Reverse "nor-o" back to "run"
-  }
-  return word;
-}
-
-// Reverse Article Rule
-function reverseArticleRule(word) {
-  if (word === 'i') {
-    return 'the'; // Reverse "i" back to "the"
-  }
-  return word;
-}
-
-// Handle unknown words (e.g., "test")
-function handleUnknownWord(word) {
-  if (word.toLowerCase() === 'test') {
-    console.log("Transforming 'test' to 'thtest'"); // Debugging line
-    return 'thtest'; // Special transformation for "test"
-  }
-  return word;
-}
+    return 'no
