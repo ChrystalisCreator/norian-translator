@@ -106,4 +106,4 @@ function reverseGenderRule(word) {
   return word;
 }
 
-// Reverse Verb Conju
+// Reverse Verb Conjugat
