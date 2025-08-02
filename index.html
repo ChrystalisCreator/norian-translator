@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Norian Translator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Norian Translator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Norian Translator</h1>
-        <textarea id="inputText" placeholder="Enter English text here..." rows="6"></textarea>
-        <button onclick="translateText()">Translate</button>
-        <h2>Translated Text</h2>
-        <div id="outputText"></div>
+  <div class="container">
+    <h1>Norian Translator</h1>
+
+    <div class="translation-box">
+      <h2>Translate from English to Norian:</h2>
+      <textarea id="englishInput" placeholder="Enter text in English..."></textarea>
+      <button onclick="translateToNorian()">Translate</button>
+      <h3>Norian Translation:</h3>
+      <div id="norianOutput"></div>
     </div>
-    <script src="script.js"></script>
+
+    <div class="translation-box">
+      <h2>Translate from Norian to English:</h2>
+      <textarea id="norianInput" placeholder="Enter text in Norian..."></textarea>
+      <button onclick="translateToEnglish()">Translate</button>
+      <h3>English Translation:</h3>
+      <div id="englishOutput"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
