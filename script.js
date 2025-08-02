@@ -59,27 +59,35 @@ function generateElvenWord(word) {
 function translateText() {
     let inputText = document.getElementById('inputText').value; // Get the input text
     let direction = document.getElementById('direction').value; // Get the direction (English to Norian or vice versa)
-    let words = inputText.split(/\s+/); // Split the input by spaces and new lines
+    
+    // Handle multiple spaces and punctuation correctly using regular expressions
+    let words = inputText.split(/(\s+|\b)/); // Split by word boundaries while preserving spaces
     let translatedWords = []; // Array to store the translated words
 
     words.forEach(word => {
-        // Remove punctuation and store separately
-        let punctuation = '';
-        if (/[.,!?;]$/.test(word)) {
-            punctuation = word.charAt(word.length - 1); // Get last character
-            word = word.slice(0, -1); // Remove punctuation
+        // Check if the word is a pure word or if it's a punctuation or space
+        if (/[a-zA-Z]+/.test(word)) {
+            // Remove punctuation and store separately
+            let punctuation = '';
+            if (/[.,!?;]$/.test(word)) {
+                punctuation = word.charAt(word.length - 1); // Get last character
+                word = word.slice(0, -1); // Remove punctuation
+            }
+
+            // Convert the word to lowercase for case-insensitive lookup
+            let wordLower = word.toLowerCase();
+
+            // Translate each word using the dictionary and verb tenses
+            let translatedWord = dictionary[wordLower] || verbTenses[wordLower] || generateElvenWord(word);
+
+            // Append the punctuation back to the translated word
+            translatedWords.push(translatedWord + punctuation);
+        } else {
+            // If it's a space or punctuation, just add it to the translated words array
+            translatedWords.push(word);
         }
-
-        // Convert the word to lowercase for case-insensitive lookup
-        let wordLower = word.toLowerCase();
-
-        // Translate each word using the dictionary and verb tenses
-        let translatedWord = dictionary[wordLower] || verbTenses[wordLower] || generateElvenWord(word);
-
-        // Append the punctuation back to the translated word
-        translatedWords.push(translatedWord + punctuation);
     });
 
-    // Display the translated result
-    document.getElementById('translationResult').innerText = translatedWords.join(' ');
+    // Join the translated words into a sentence
+    document.getElementById('translationResult').innerText = translatedWords.join('');
 }
