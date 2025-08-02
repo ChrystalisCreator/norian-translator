@@ -57,10 +57,10 @@ function applyVowelMutation(word) {
   });
 }
 
-// Rule: Handle consonant mutations (avoid applying this to "test")
+// Rule: Handle consonant mutations (avoid applying this to already transformed "thtest")
 function applyConsonantMutation(word) {
   console.log("Applying consonant mutation to:", word); // Debugging line
-  if (word === 'thtest') { // Avoid mutating 'thtest'
+  if (word === 'thtest') { // Skip mutation for 'thtest'
     return word;
   }
   return word.replace(/[tp]/g, match => {
@@ -105,4 +105,7 @@ function handleUnknownWord(word) {
   console.log("Handling unknown word:", word); // Debugging line
   if (word.toLowerCase() === 'test') {
     console.log("Transforming 'test' to 'thtest'"); // Debugging line
-    return 'thtest'; // Specia
+    return 'thtest'; // Special transformation for "test"
+  }
+  return word;
+}
