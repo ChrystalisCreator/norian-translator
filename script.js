@@ -1,12 +1,7 @@
-// Function to generate a "Norian" word based on Quenya-inspired, controlled elven-like rules
-function generateElvenWord(word) {
-    // Rule 1: Apply elven-style suffix with subtlety
-    let suffixes = ["iel", "ael", "ian", "ra", "thiel"];
-    let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    let newWord = word.toLowerCase(); // Start with the word itself, lowercase
-
-    // Rule 2: Apply subtle vowel changes for elven-like flow
-    newWord = newWord.replace(/[aeiou]/g, (match) => {
+// Function to generate a "Norian" word with Quenya influence and custom modifications
+function generateNorianWord(word) {
+    // Rule 1: Apply vowel transformations (selectively)
+    let vowelsTransformed = word.toLowerCase().replace(/[aeiou]/g, (match) => {
         if (match === "a") return "ae";  // "a" becomes "ae"
         if (match === "e") return "ei";  // "e" becomes "ei"
         if (match === "i") return "ei"; // "i" becomes "ei"
@@ -15,14 +10,18 @@ function generateElvenWord(word) {
         return match;
     });
 
-    // Apply suffix to the word
-    newWord = newWord + randomSuffix;
+    // Rule 2: Apply consonant shifts subtly
+    let consonantShifted = vowelsTransformed
+        .replace(/r/g, "l")  // "r" becomes "l"
+        .replace(/s/g, "v")  // "s" becomes "v"
+        .replace(/t/g, "th") // "t" becomes "th"
+        .replace(/p/g, "f"); // "p" becomes "f"
 
-    // Rule 3: Apply consonant shifts subtly (for a smooth, elven feel)
-    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
-    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
-    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
-    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
+    // Rule 3: Apply suffixes based on word length or type
+    let suffixes = ["iel", "ael", "thiel", "ian"];
+    let suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    
+    let newWord = consonantShifted + suffix;
 
     // Rule 4: Capitalize the first letter if the original word was capitalized
     if (word.charAt(0) === word.charAt(0).toUpperCase()) {
@@ -52,7 +51,7 @@ function translateText() {
             }
 
             // Generate the Norian word for each word
-            let translatedWord = generateElvenWord(word);
+            let translatedWord = generateNorianWord(word);
 
             // Append the punctuation back to the translated word
             translatedWords.push(translatedWord + punctuation);
