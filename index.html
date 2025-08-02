@@ -3,31 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Norian Translator</title>
+  <title>World Language Translator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Norian Translator</h1>
+    <h1>World Language Translator</h1>
 
+    <!-- English to World Language -->
     <div class="translation-box">
-      <h2>Translate from English to Norian:</h2>
+      <h2>Translate from English to World Language:</h2>
       <textarea id="englishInput" placeholder="Enter text in English..."></textarea>
-      <button onclick="translateToNorian()">Translate</button>
-      <h3>Norian Translation:</h3>
-      <div id="norianOutput"></div>
+      <button onclick="translateToWorldLanguage()">Translate</button>
+      <h3>World Language Translation:</h3>
+      <div id="worldLanguageOutput"></div>
     </div>
 
+    <!-- World Language to English -->
     <div class="translation-box">
-      <h2>Translate from Norian to English:</h2>
-      <textarea id="norianInput" placeholder="Enter text in Norian..."></textarea>
+      <h2>Translate from World Language to English:</h2>
+      <textarea id="worldLanguageInput" placeholder="Enter text in World Language..."></textarea>
       <button onclick="translateToEnglish()">Translate</button>
       <h3>English Translation:</h3>
       <div id="englishOutput"></div>
     </div>
   </div>
 
-  <!-- Place the script tag here to ensure the functions are defined before being used -->
   <script src="script.js"></script>
 </body>
 </html>
