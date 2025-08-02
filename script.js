@@ -1,19 +1,21 @@
-// Function to generate a "Norian" word with minimal, controlled elven-like rules
+// Function to generate a more controlled Norian word based on simplified phonetics
 function generateNorianWord(word) {
-    // Rule 1: Apply vowel transformations (only once per word)
+    // Rule 1: Apply simple vowel transformations (only once per word)
     let newWord = word.toLowerCase();
     
-    // Apply specific vowel changes: "a" -> "ae", "e" -> "ei", "o" -> "ou"
+    // Apply specific vowel changes: "a" -> "ae", "e" -> "ei", "i" -> "ei", "o" -> "ou", "u" -> "ou"
     newWord = newWord.replace(/a/g, "ae"); // "a" becomes "ae"
     newWord = newWord.replace(/e/g, "ei"); // "e" becomes "ei"
+    newWord = newWord.replace(/i/g, "ei"); // "i" becomes "ei"
     newWord = newWord.replace(/o/g, "ou"); // "o" becomes "ou"
+    newWord = newWord.replace(/u/g, "ou"); // "u" becomes "ou"
 
-    // Rule 2: Apply subtle consonant shifts (only where it sounds natural)
+    // Rule 2: Apply consonant shifts sparingly
     newWord = newWord.replace(/r/g, "l");  // "r" becomes "l" (smooth sound)
     newWord = newWord.replace(/s/g, "v");  // "s" becomes "v" (softer)
     newWord = newWord.replace(/t/g, "th"); // "t" becomes "th" (elven touch)
 
-    // Rule 3: Apply suffixes sparingly to make it more unique
+    // Rule 3: Apply one suffix based on word category (noun/adjective)
     let suffixes = ["iel", "ael", "ian"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     newWord = newWord + randomSuffix;
@@ -26,7 +28,7 @@ function generateNorianWord(word) {
     return newWord;
 }
 
-// Function to translate text (handling punctuation and spaces)
+// Function to translate text, handling punctuation and spaces
 function translateText() {
     let inputText = document.getElementById('inputText').value; // Get the input text
     let direction = document.getElementById('direction').value; // Get the direction (English to Norian or vice versa)
