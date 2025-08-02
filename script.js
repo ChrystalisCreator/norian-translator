@@ -33,40 +33,46 @@ function translateTextToNorian(text) {
   return result;
 }
 
-// Rule: Handle pluralization (simplified)
+// Rule: Handle pluralization (more varied suffixes)
 function applyNumberRule(word) {
   console.log("Applying number rule to:", word); // Debugging line
   if (word === 'test') { // Special case for "test"
     return 'thtest'; // Example transformation for "test"
   }
-  return word + 'vian'; // Add a random suffix for plurals to make it more distinct
+
+  // Randomly apply a suffix for pluralization
+  const suffixes = ['vian', 'as', 'ir', 'thi', 'ral'];
+  let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+  return word + randomSuffix; // Use a random suffix
 }
 
-// Rule: Handle vowel mutations
+// Rule: Handle vowel mutations (more dramatic)
 function applyVowelMutation(word) {
   console.log("Applying vowel mutation to:", word); // Debugging line
   return word.replace(/[aeiou]/g, match => {
     switch (match) {
-      case 'a': return 'e';
-      case 'e': return 'o';
-      case 'o': return 'u';
-      case 'i': return 'a';
-      case 'u': return 'i';
+      case 'a': return 'i';
+      case 'e': return 'u';
+      case 'o': return 'a';
+      case 'i': return 'o';
+      case 'u': return 'e';
       default: return match;
     }
   });
 }
 
-// Rule: Handle consonant mutations (avoid applying this to already transformed "thtest")
+// Rule: Handle consonant mutations (apply more mutations)
 function applyConsonantMutation(word) {
   console.log("Applying consonant mutation to:", word); // Debugging line
-  if (word === 'thtest') { // Skip mutation for 'thtest'
-    return word;
-  }
-  return word.replace(/[tp]/g, match => {
-    if (match === 't') return 'th';
-    if (match === 'p') return 'f';
-    return match;
+  // Apply consonant mutations to add more "alien" feel
+  return word.replace(/[ntrl]/g, match => {
+    switch (match) {
+      case 'n': return 'm';
+      case 't': return 'th';
+      case 'r': return 'z';
+      case 'l': return 'y';
+      default: return match;
+    }
   });
 }
 
