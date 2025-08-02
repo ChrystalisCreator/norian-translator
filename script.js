@@ -46,7 +46,7 @@ function generateElvenWord(word) {
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     let newWord = word.toLowerCase() + randomSuffix;
 
-    // Rule 3: Apply subtle vowel changes for elven-like flow
+    // Rule 3: Apply more subtle vowel changes for elven-like flow
     newWord = newWord.replace(/[aeiou]/g, (match) => {
         if (match === "a") return "ae";  // "a" becomes "ae"
         if (match === "e") return "ei";  // "e" becomes "ei"
@@ -56,7 +56,7 @@ function generateElvenWord(word) {
         return match;
     });
 
-    // Rule 4: Apply more subtle consonant shifts
+    // Rule 4: Apply subtle consonant shifts
     newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
     newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
     newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
