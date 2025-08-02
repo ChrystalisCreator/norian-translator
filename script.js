@@ -26,28 +26,33 @@ const verbTenses = {
     "see": "varel"
 };
 
-// Function to generate a "Norian" word for unknown words with elven-like rules
+// Function to generate a "Norian" word for unknown words with refined elven-like rules
 function generateElvenWord(word) {
     // Rule 1: Add an Elven-style suffix
-    let newWord = word.toLowerCase() + "iel"; // Elven-style suffix "-iel"
+    let suffixes = ["iel", "ael", "ian", "ra"];
+    let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    let newWord = word.toLowerCase() + randomSuffix;
 
     // Rule 2: Modify the word to make it sound more "elven"
-    // Add vowel combinations to make it smoother (e.g., "ae", "ei", "io", "ou")
+    // Add smooth vowel combinations
     newWord = newWord.replace(/[aeiou]/g, (match) => {
-        if (match === "a") return "ae";  // "a" becomes "ae" for a smoother sound
+        if (match === "a") return "ae";  // "a" becomes "ae" for smoother sound
         if (match === "e") return "ei";  // "e" becomes "ei"
         if (match === "i") return "ei"; // "i" becomes "ei"
-        if (match === "o") return "ou";  // "o" becomes "ou"
+        if (match === "o") return "io";  // "o" becomes "io"
         if (match === "u") return "ou"; // "u" becomes "ou"
         return match;
     });
 
-    // Rule 3: Modify consonants to add elegance
-    // Replace harder consonants with softer ones like "l", "v", or "th"
-    newWord = newWord.replace(/r/g, "l");  // Soft "r" to "l"
-    newWord = newWord.replace(/t/g, "th"); // Hard "t" to "th"
-    newWord = newWord.replace(/s/g, "v");  // Soft "s" to "v"
-    newWord = newWord.replace(/p/g, "f");  // Hard "p" to "f"
+    // Rule 3: Modify consonants for a more subtle elven-like sound
+    // Replace "r" with "l" in some cases (but leave "r" when needed)
+    newWord = newWord.replace(/r/g, (match) => (Math.random() > 0.5 ? "l" : match));
+    // Replace "s" with "sh" for some softer words, "v" for others
+    newWord = newWord.replace(/s/g, (match) => (Math.random() > 0.5 ? "sh" : "v"));
+    // Replace "t" with "th" for a softer pronunciation
+    newWord = newWord.replace(/t/g, "th");
+    // Occasionally replace "p" with "f" for smoother flow
+    newWord = newWord.replace(/p/g, "f");
 
     // Rule 4: Ensure open syllables for smoother sound (syllables that end in vowels)
     newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2"); // Ensure a flowing vowel-consonant structure
