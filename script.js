@@ -25,7 +25,7 @@ const verbTenses = {
     "see": "varel"
 };
 
-// Function to generate a "Norian" word for unknown words with refined elven-like rules
+// Function to generate a "Norian" word for unknown words with subtle elven-like rules
 function generateElvenWord(word) {
     // Rule 1: Special case for common words
     if (word.toLowerCase() === "i") {
@@ -41,17 +41,18 @@ function generateElvenWord(word) {
         return "thal"; // "The" should be "thal"
     }
 
-    // Rule 2: Add an Elven-style suffix with more subtlety
+    // Rule 2: Apply elven-style suffix with more subtlety
     let suffixes = ["iel", "ael", "ian", "ra"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     let newWord = word.toLowerCase() + randomSuffix;
 
-    // Rule 3: Apply subtle vowel and consonant changes for elven-like flow
+    // Rule 3: Apply more subtle vowel changes for elven-like flow
     newWord = newWord.replace(/[aeiou]/g, (match) => {
-        if (match === "a") return "ae";  // "a" becomes "ae" in certain contexts
-        if (match === "e") return "ei";  // "e" becomes "ei" in certain contexts
-        if (match === "o") return "ou";  // "o" becomes "ou" for a flowing sound
-        if (match === "i") return "ei"; // "i" becomes "ei" for smoother flow
+        if (match === "a") return "ae";  // "a" becomes "ae"
+        if (match === "e") return "ei";  // "e" becomes "ei"
+        if (match === "i") return "ei"; // "i" becomes "ei"
+        if (match === "o") return "ou";  // "o" becomes "ou"
+        if (match === "u") return "ou"; // "u" becomes "ou"
         return match;
     });
 
@@ -61,13 +62,17 @@ function generateElvenWord(word) {
     newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
     newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
 
-    // Rule 5: Capitalize the first letter if the original word was capitalized
+    // Rule 5: Ensure open syllables for smoother sound (syllables that end in vowels)
+    newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2"); // Ensure a flowing vowel-consonant structure
+
+    // Rule 6: Capitalize the first letter if the original word was capitalized
     if (word.charAt(0) === word.charAt(0).toUpperCase()) {
         newWord = newWord.charAt(0).toUpperCase() + newWord.slice(1);
     }
 
     return newWord;
 }
+
 
 // Function to translate text
 function translateText() {
