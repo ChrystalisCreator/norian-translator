@@ -2,7 +2,7 @@
 function translateToNorian() {
   let englishText = document.getElementById('englishInput').value;
 
-  // Apply the translation rules (simplified and dynamic)
+  // Apply the translation rules (simplified)
   let translatedText = translateTextToNorian(englishText);
 
   // Show the translated text in the output box
@@ -22,11 +22,12 @@ function translateToEnglish() {
 
 // Function to handle the translation process from English to Norian
 function translateTextToNorian(text) {
+  console.log("Translating to Norian:", text); // Debugging line
   let words = text.split(' ');
 
-  // Apply all the rules dynamically for each word
+  // Apply transformation for each word
   let translatedWords = words.map(word => {
-    word = handleUnknownWord(word);  // Ensure unknown words like "test" are handled
+    word = handleUnknownWord(word);  // Handle unknown words like "test"
     word = applyNumberRule(word);
     word = applyGenderRule(word);
     word = applyVerbConjugation(word);
@@ -34,16 +35,19 @@ function translateTextToNorian(text) {
     return word;
   });
 
-  return translatedWords.join(' ');
+  let result = translatedWords.join(' ');
+  console.log("Translated to Norian:", result); // Debugging line
+  return result;
 }
 
 // Function to handle the translation process from Norian to English
 function translateTextToEnglish(text) {
+  console.log("Translating to English:", text); // Debugging line
   let words = text.split(' ');
 
-  // Reverse the translation process for each word
+  // Reverse the transformation for each word
   let translatedWords = words.map(word => {
-    word = handleUnknownWord(word);  // Ensure unknown words like "test" are handled
+    word = handleUnknownWord(word);  // Handle unknown words like "test"
     word = reverseNumberRule(word);
     word = reverseGenderRule(word);
     word = reverseVerbConjugation(word);
@@ -51,83 +55,86 @@ function translateTextToEnglish(text) {
     return word;
   });
 
-  return translatedWords.join(' ');
+  let result = translatedWords.join(' ');
+  console.log("Translated to English:", result); // Debugging line
+  return result;
 }
 
-// Number rule: Singular, plural, and class plural (simplified)
+// Rule: Handle pluralization (simplified)
 function applyNumberRule(word) {
-  if (word.endsWith('vian')) {
-    return word.slice(0, -4) + 's'; // Simplified pluralization rule
+  if (word === 'test') { // Special case for "test"
+    return 'thtest'; // Example transformation for "test"
   }
   return word;
 }
 
-// Gender rule: Handle gender-neutral translations (simplified)
+// Rule: Handle gender (simplified)
 function applyGenderRule(word) {
-  if (word.toLowerCase() === 'man') {
-    return 'adan'; // Example for male-specific translation
+  if (word === 'man') {
+    return 'adan'; // Example for "man"
   }
-  if (word.toLowerCase() === 'woman') {
-    return 'edain'; // Example for female-specific translation
+  if (word === 'woman') {
+    return 'edain'; // Example for "woman"
   }
   return word;
 }
 
-// Verb Conjugation rule (simplified for the present tense)
+// Rule: Verb conjugation (simplified)
 function applyVerbConjugation(word) {
-  if (word.toLowerCase() === 'run') {
-    return 'nor-' + 'o'; // Example verb form for 'to run' in the present tense
+  if (word === 'run') {
+    return 'nor-o'; // Example conjugation for "run"
   }
   return word;
 }
 
-// Article rule: Definite article "the"
+// Rule: Articles (simplified)
 function applyArticleRule(word) {
-  if (word.toLowerCase() === 'the') {
-    return 'i'; // Example of definite article "the" translated
+  if (word === 'the') {
+    return 'i'; // Example for "the"
   }
   return word;
 }
 
-// Reverse Number Rule: Handle plural and singular reversals (simplified)
+// Reverse Number Rule
 function reverseNumberRule(word) {
   if (word.endsWith('s')) {
-    return word.slice(0, -1); // Simplified singularization rule
+    return word.slice(0, -1); // Convert plural to singular
   }
   return word;
 }
 
-// Reverse Gender Rule: Handle gender-specific translations (simplified)
+// Reverse Gender Rule
 function reverseGenderRule(word) {
-  if (word.toLowerCase() === 'adan') {
-    return 'man'; // Reverse male-specific translation
+  if (word === 'adan') {
+    return 'man'; // Reverse "adan" back to "man"
   }
-  if (word.toLowerCase() === 'edain') {
-    return 'woman'; // Reverse female-specific translation
+  if (word === 'edain') {
+    return 'woman'; // Reverse "edain" back to "woman"
   }
   return word;
 }
 
-// Reverse Verb Conjugation rule (simplified for the present tense)
+// Reverse Verb Conjugation
 function reverseVerbConjugation(word) {
-  if (word.startsWith('nor-')) {
-    return 'run'; // Reverse conjugation for the verb 'to run'
+  if (word === 'nor-o') {
+    return 'run'; // Reverse "nor-o" back to "run"
   }
   return word;
 }
 
-// Reverse Article Rule: Definite article "the"
+// Reverse Article Rule
 function reverseArticleRule(word) {
-  if (word.toLowerCase() === 'i') {
-    return 'the'; // Reverse definite article translation
+  if (word === 'i') {
+    return 'the'; // Reverse "i" back to "the"
   }
   return word;
 }
 
-// Add a basic default rule for words like 'test'
+// Handle unknown words (e.g., "test")
 function handleUnknownWord(word) {
   if (word.toLowerCase() === 'test') {
-    return 'thtest'; // Example rule for "test"
+    console.log("Transforming 'test' to 'thtest'"); // Debugging line
+    return 'thtest'; // Special transformation for "test"
   }
   return word;
 }
