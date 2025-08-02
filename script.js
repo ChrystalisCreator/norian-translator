@@ -1,40 +1,42 @@
-// Example Norian language translation rules for certain words
-const dictionary = {
-    "hello": "thheiian",
-    "world": "vthaeilvian",
-    "dog": "vhouneiael",
-    "ran": "blighthlyian",
-    "across": "aeibouveiian",
-    "the": "thheiiel",
-    "yard": "mouunthaeiinvian",
-    "and": "aeiviel",
-    "jumped": "windiel",
-    "over": "whivpeileidiel",
-    "fence": "thhlouughiel",
-    "sun": "thleiivian",
-    "was": "whivneil",
-    "setting": "whivpeihaliel",
-    "casting": "aeivian",
-    "a": "thheiael",
-    "golden": "vhouiian",
-    "hue": "blightiriel",
-    "birds": "whiolar",
-    "flew": "vhenel",
-    "overhead": "thouhniel",
-    "singing": "whariel",
-    "as": "aeveian",
-    "they": "whieli"
-    // Add more translations as needed
-};
+// Function to apply vowel and consonant transformations for Norian
+function transformWord(word) {
+    // Apply vowel transformations (a -> ae, e -> ei, o -> ou)
+    word = word.replace(/a/g, "ae").replace(/e/g, "ei").replace(/o/g, "ou");
 
-// Function to translate a sentence into Norian
+    // Apply basic suffix transformations
+    if (word.endsWith("ing")) {
+        word = word.replace(/ing$/, "iel"); // "running" -> "runiel"
+    } else if (word.endsWith("ed")) {
+        word = word.replace(/ed$/, "iel"); // "jumped" -> "jumpiel"
+    } else if (word.endsWith("s")) {
+        word = word + "vian"; // "dog" -> "dogvian"
+    } else {
+        word = word + "iel"; // Default transformation for other words
+    }
+
+    return word;
+}
+
+// Function to translate a sentence into Norian based on rules
 function translateSentence(sentence) {
-    const words = sentence.split(" ");
+    const words = sentence.split(/\b/); // Split sentence by word boundaries (including punctuation)
     const translatedWords = words.map(word => {
-        const lowerCaseWord = word.toLowerCase();
-        return dictionary[lowerCaseWord] || word; // If word isn't in dictionary, keep it the same
+        // Remove punctuation to match transformation rules
+        const cleanWord = word.replace(/[^\w\s]|_/g, "").toLowerCase();
+        let transformedWord = cleanWord;
+
+        if (cleanWord) {
+            transformedWord = transformWord(cleanWord); // Apply language rules
+        }
+
+        // Reinsert punctuation as-is if it was removed
+        if (/[^\w\s]|_/g.test(word)) {
+            return word; // Return punctuation as-is
+        }
+
+        return transformedWord;
     });
-    return translatedWords.join(" ");
+    return translatedWords.join("");
 }
 
 // Function to handle the translation of paragraph text
@@ -45,9 +47,11 @@ function translateText() {
         return;
     }
 
-    const sentences = inputText.split(". ");
-    const translatedSentences = sentences.map(sentence => translateSentence(sentence));
-    const translatedText = translatedSentences.join(". ");
-    
+    const sentences = inputText.split(/([.?!])/); // Split sentences but keep punctuation for context
+    const translatedSentences = sentences.map(sentence => {
+        return translateSentence(sentence.trim());
+    });
+    const translatedText = translatedSentences.join(" "); // Combine all translated sentences
+
     document.getElementById("outputText").innerText = translatedText;
 }
