@@ -1,6 +1,6 @@
-// Function to generate a "Norian" word based on controlled elven-like rules
+// Function to generate a "Norian" word with controlled, elven-like rules
 function generateElvenWord(word) {
-    // Rule 1: Apply suffix only when needed
+    // Rule 1: Apply elven-style suffix with subtlety
     let suffixes = ["iel", "ael", "ian", "ra"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     let newWord = word.toLowerCase(); // Start with the word itself, lowercase
@@ -18,16 +18,13 @@ function generateElvenWord(word) {
     // Apply suffix to the word
     newWord = newWord + randomSuffix;
 
-    // Rule 3: Apply consonant shifts only where it sounds natural
-    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l" (subtle shift)
-    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v" (softens the sound)
-    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th" (more elven)
-    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f" (softened consonant)
+    // Rule 3: Apply consonant shifts subtly
+    newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
+    newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
+    newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
+    newWord = newWord.replace(/p/g, "f");  // "p" becomes "f"
 
-    // Rule 4: Ensure open syllables (syllables that end in vowels are smoother)
-    newWord = newWord.replace(/([aeiou])([aeiou])/g, "$1$2");
-
-    // Rule 5: Capitalize the first letter if the original word was capitalized
+    // Rule 4: Capitalize the first letter if the original word was capitalized
     if (word.charAt(0) === word.charAt(0).toUpperCase()) {
         newWord = newWord.charAt(0).toUpperCase() + newWord.slice(1);
     }
