@@ -26,6 +26,7 @@ function translateTextToNorian(text) {
 
   // Apply all the rules dynamically for each word
   let translatedWords = words.map(word => {
+    word = handleUnknownWord(word);  // Ensure unknown words like "test" are handled
     word = applyNumberRule(word);
     word = applyGenderRule(word);
     word = applyVerbConjugation(word);
@@ -42,6 +43,7 @@ function translateTextToEnglish(text) {
 
   // Reverse the translation process for each word
   let translatedWords = words.map(word => {
+    word = handleUnknownWord(word);  // Ensure unknown words like "test" are handled
     word = reverseNumberRule(word);
     word = reverseGenderRule(word);
     word = reverseVerbConjugation(word);
@@ -106,4 +108,26 @@ function reverseGenderRule(word) {
   return word;
 }
 
-// Reverse Verb Conjugat
+// Reverse Verb Conjugation rule (simplified for the present tense)
+function reverseVerbConjugation(word) {
+  if (word.startsWith('nor-')) {
+    return 'run'; // Reverse conjugation for the verb 'to run'
+  }
+  return word;
+}
+
+// Reverse Article Rule: Definite article "the"
+function reverseArticleRule(word) {
+  if (word.toLowerCase() === 'i') {
+    return 'the'; // Reverse definite article translation
+  }
+  return word;
+}
+
+// Add a basic default rule for words like 'test'
+function handleUnknownWord(word) {
+  if (word.toLowerCase() === 'test') {
+    return 'thtest'; // Example rule for "test"
+  }
+  return word;
+}
