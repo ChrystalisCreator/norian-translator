@@ -6,16 +6,15 @@ const dictionary = {
     "yard": "narion",
     "red": "rylin",
     "across": "rith",
-    "I": "ai",  // Special case for "I"
-    "you": "sai",  // Special case for "you"
-    "love": "jihyli",  // Special case for "love"
+    "love": "jihyli",
     "family": "ysi",
     "friend": "mella",
     "house": "illath",
     "go": "nara",
     "see": "varel",
     "sleep": "anar",
-    "fight": "tharan"
+    "fight": "tharan",
+    "too": "sai"  // Special case for "too"
 };
 
 // Verb Tenses
@@ -33,10 +32,10 @@ function generateElvenWord(word) {
         return "Ai"; // "I" should be "Ai"
     }
     if (word.toLowerCase() === "you") {
-        return "Sai"; // "You" should be "Sai"
+        return "o"; // "You" should be "o"
     }
-    if (word.toLowerCase() === "love") {
-        return "Jihyli"; // "Love" should be "Jihyli"
+    if (word.toLowerCase() === "too") {
+        return "sai"; // "Too" should be "sai"
     }
     
     // Rule 2: Add an Elven-style suffix
