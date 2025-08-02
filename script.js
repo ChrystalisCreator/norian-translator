@@ -1,79 +1,81 @@
-// New transformation rules
-function transformWord(word) {
-    // List of common words to avoid transforming (these are kept simpler)
-    const commonWords = ["a", "the", "is", "are", "was", "were", "it", "of", "and", "to", "in"];
-    if (commonWords.includes(word.toLowerCase())) {
-        return word;  // Keep common words unchanged
+// Pronouns
+const pronouns = {
+    nominative: {
+        I: 'sal',
+        you: 'va',
+        he: 'su',
+        she: 'si',
+        we: 'sar',
+        you_plural: 'var',
+        they: 'sen'
+    },
+    genitive: {
+        my: 'salen',
+        your: 'vian',
+        his: 'siun',
+        her: 'siin',
+        our: 'saren',
+        your_plural: 'viaren',
+        their: 'sienen'
     }
+};
 
-    // Apply more drastic vowel changes to make the language sound alien
-    word = word.replace(/a/g, "ae")
-               .replace(/e/g, "ii")
-               .replace(/i/g, "ei")
-               .replace(/o/g, "ou")
-               .replace(/u/g, "ou")
-               .replace(/y/g, "i"); // Change "y" to "i" to further distance from English
+// Noun pluralization rules
+function pluralizeNoun(word) {
+    if (word.endsWith('l')) return word.slice(0, -1) + 'r';
+    if (word.endsWith('ir')) return word.slice(0, -2) + 'iae';
+    if (word.endsWith('a') || word.endsWith('ae')) return word + 'r';
+    if (word.endsWith('e')) return word + 'n';
+    if (word.endsWith('ss')) return word + 'ir';
+    return word + 'a';
+}
 
-    // Apply consonant simplifications
-    word = word.replace(/th/g, "thh")  // "th" -> "thh"
-               .replace(/ch/g, "kh")   // "ch" -> "kh"
-               .replace(/sh/g, "s");   // "sh" -> "s"
+// Verb tense suffixes
+function conjugateVerb(word, tense) {
+    const arType = /ar$/;
+    const weType = /we$/;
+    const irregular = /^(?!ar|we)/;
 
-    // Handling endings to distinguish noun, verb, and adjective forms
-    if (word.endsWith("ing")) {
-        word = word.replace(/ing$/, "al"); // "running" -> "runal" (present tense verb)
-    } else if (word.endsWith("ed")) {
-        word = word.replace(/ed$/, "or"); // "walked" -> "walkor" (past tense verb)
-    } else if (word.endsWith("s")) {
-        word = word + "ar"; // "dog" -> "dogar" (noun)
-    } else {
-        word = word + "ir"; // Default transformation for adjectives
+    if (arType.test(word)) {
+        if (tense === 'past') return word.slice(0, -2) + "'and";
+        if (tense === 'future') return word.slice(0, -2) + "'illae";
+    } else if (weType.test(word)) {
+        if (tense === 'past') return word.slice(0, -2) + "'nand";
+        if (tense === 'future') return word.slice(0, -2) + "'sillae";
+    } else if (irregular.test(word)) {
+        if (tense === 'past') return word + "'and";
+        if (tense === 'future') return word + "'ennae";
     }
-
-    // Make the word fluid by removing certain redundant vowels or consonants
-    word = word.replace(/ii/g, "i")
-               .replace(/eiou/g, "ou")
-               .replace(/ee/g, "ii");
-
     return word;
 }
 
-// Function to translate a sentence into Norian based on the new rules
-function translateSentence(sentence) {
-    const words = sentence.split(/\b/); // Split sentence by word boundaries (including punctuation)
-    const translatedWords = words.map(word => {
-        // Remove punctuation to match transformation rules
-        const cleanWord = word.replace(/[^\w\s]|_/g, "").toLowerCase();
-        let transformedWord = cleanWord;
-
-        if (cleanWord) {
-            transformedWord = transformWord(cleanWord); // Apply language rules
-        }
-
-        // Reinsert punctuation as-is if it was removed
-        if (/[^\w\s]|_/g.test(word)) {
-            return word; // Return punctuation as-is
-        }
-
-        return transformedWord;
-    });
-
-    return translatedWords.join("");
+// Adjective suffix
+function adjectiveForm(word) {
+    return word + 'lith';
 }
 
-// Function to handle the translation of paragraph text
+// Translate a sentence
+function translateSentence(sentence) {
+    const words = sentence.split(/\b/);
+    const translatedWords = words.map(word => {
+        word = word.trim().toLowerCase();
+        if (pronouns.nominative[word]) return pronouns.nominative[word];
+        if (pronouns.genitive[word]) return pronouns.genitive[word];
+        if (word.endsWith('ing')) return conjugateVerb(word, 'present');
+        if (word.endsWith('ed')) return conjugateVerb(word, 'past');
+        if (word.endsWith('s')) return pluralizeNoun(word);
+        return adjectiveForm(word);
+    });
+    return translatedWords.join('');
+}
+
+// Handle translation
 function translateText() {
-    const inputText = document.getElementById("inputText").value;
-    if (inputText.trim() === "") {
-        document.getElementById("outputText").innerHTML = "Please enter some text to translate.";
+    const inputText = document.getElementById('inputText').value;
+    if (!inputText.trim()) {
+        document.getElementById('outputText').textContent = 'Please enter some text to translate.';
         return;
     }
-
-    const sentences = inputText.split(/([.?!])/); // Split sentences but keep punctuation for context
-    const translatedSentences = sentences.map(sentence => {
-        return translateSentence(sentence.trim());
-    });
-
-    const translatedText = translatedSentences.join(" "); // Combine all translated sentences
-    document.getElementById("outputText").innerText = translatedText;
+    const translatedText = translateSentence(inputText);
+    document.getElementById('outputText').textContent = translatedText;
 }
