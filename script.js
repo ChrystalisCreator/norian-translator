@@ -1,4 +1,4 @@
-// Function to generate a "Norian" word with controlled, elven-like rules
+// Function to generate a "Norian" word based on controlled elven-like rules
 function generateElvenWord(word) {
     // Rule 1: Apply elven-style suffix with subtlety
     let suffixes = ["iel", "ael", "ian", "ra"];
