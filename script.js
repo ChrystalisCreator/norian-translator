@@ -41,8 +41,16 @@ function translateText() {
             word = word.slice(0, -1); // Remove punctuation
         }
 
+        // Convert the word to lowercase for case-insensitive lookup
+        let wordLower = word.toLowerCase();
+
         // Translate each word using the dictionary and verb tenses
-        let translatedWord = dictionary[word.toLowerCase()] || verbTenses[word.toLowerCase()] || word;
+        let translatedWord = dictionary[wordLower] || verbTenses[wordLower] || word;
+
+        // If the original word was capitalized, preserve the capitalization in the translated word
+        if (word.charAt(0) === word.charAt(0).toUpperCase()) {
+            translatedWord = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1);
+        }
 
         // Append the punctuation back to the translated word
         translatedWords.push(translatedWord + punctuation);
