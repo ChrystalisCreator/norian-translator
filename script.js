@@ -6,33 +6,34 @@ function transformWord(word) {
         return word;  // Keep common words unchanged
     }
 
-    // Apply vowel and consonant transformations
+    // Apply more drastic vowel changes to make the language sound alien
     word = word.replace(/a/g, "ae")
-               .replace(/e/g, "ei")
-               .replace(/i/g, "ai")
+               .replace(/e/g, "ii")
+               .replace(/i/g, "ei")
                .replace(/o/g, "ou")
-               .replace(/u/g, "ou");
+               .replace(/u/g, "ou")
+               .replace(/y/g, "i"); // Change "y" to "i" to further distance from English
 
-    // Simplify consonant clusters
-    word = word.replace(/sh/g, "s")
-               .replace(/th/g, "t")
-               .replace(/ch/g, "k");
+    // Apply consonant simplifications
+    word = word.replace(/th/g, "thh")  // "th" -> "thh"
+               .replace(/ch/g, "kh")   // "ch" -> "kh"
+               .replace(/sh/g, "s");   // "sh" -> "s"
 
     // Handling endings to distinguish noun, verb, and adjective forms
     if (word.endsWith("ing")) {
-        word = word.replace(/ing$/, "ai"); // "running" -> "runai" (present tense verb)
+        word = word.replace(/ing$/, "al"); // "running" -> "runal" (present tense verb)
     } else if (word.endsWith("ed")) {
-        word = word.replace(/ed$/, "on"); // "walked" -> "walkon" (past tense verb)
+        word = word.replace(/ed$/, "or"); // "walked" -> "walkor" (past tense verb)
     } else if (word.endsWith("s")) {
-        word = word.replace(/s$/, "ar"); // "dog" -> "dogar" (noun)
+        word = word + "ar"; // "dog" -> "dogar" (noun)
     } else {
         word = word + "ir"; // Default transformation for adjectives
     }
 
     // Make the word fluid by removing certain redundant vowels or consonants
-    word = word.replace(/aiai/g, "ai")
+    word = word.replace(/ii/g, "i")
                .replace(/eiou/g, "ou")
-               .replace(/ee/g, "ei");
+               .replace(/ee/g, "ii");
 
     return word;
 }
