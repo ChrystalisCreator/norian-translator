@@ -26,30 +26,28 @@ const verbTenses = {
     "see": "varel"
 };
 
-// Translate function triggered by the button
+// Function to translate text
 function translateText() {
     let inputText = document.getElementById('inputText').value; // Get the input text
     let direction = document.getElementById('direction').value; // Get the direction (English to Norian or vice versa)
-    let words = inputText.split(" "); // Split the input text into words
-    let translatedWords = []; // Initialize an empty array for the translated words
+    let words = inputText.split(/\s+/); // Split the input by spaces and new lines
+    let translatedWords = []; // Array to store the translated words
 
-    // English to Norian Translation
-    if (direction === "en-norian") {
-        words.forEach(word => {
-            // Translate each word, check if it's in the dictionary, otherwise leave it as is
-            let translatedWord = dictionary[word.toLowerCase()] || verbTenses[word.toLowerCase()] || word;
-            translatedWords.push(translatedWord);
-        });
-    } 
-    // Norian to English Translation
-    else if (direction === "norian-en") {
-        words.forEach(word => {
-            // Reverse the dictionary lookup
-            let translatedWord = Object.keys(dictionary).find(key => dictionary[key] === word.toLowerCase()) || word;
-            translatedWords.push(translatedWord);
-        });
-    }
+    words.forEach(word => {
+        // Remove punctuation and store separately
+        let punctuation = '';
+        if (/[.,!?;]$/.test(word)) {
+            punctuation = word.charAt(word.length - 1); // Get last character
+            word = word.slice(0, -1); // Remove punctuation
+        }
 
-    // Output the translation result
-    document.getElementById('translationResult').innerText = translatedWords.join(" ");
+        // Translate each word using the dictionary and verb tenses
+        let translatedWord = dictionary[word.toLowerCase()] || verbTenses[word.toLowerCase()] || word;
+
+        // Append the punctuation back to the translated word
+        translatedWords.push(translatedWord + punctuation);
+    });
+
+    // Display the translated result
+    document.getElementById('translationResult').innerText = translatedWords.join(' ');
 }
