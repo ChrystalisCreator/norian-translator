@@ -1,7 +1,7 @@
-// Function to generate a "Norian" word based on controlled elven-like rules
+// Function to generate a "Norian" word based on Quenya-inspired, controlled elven-like rules
 function generateElvenWord(word) {
     // Rule 1: Apply elven-style suffix with subtlety
-    let suffixes = ["iel", "ael", "ian", "ra"];
+    let suffixes = ["iel", "ael", "ian", "ra", "thiel"];
     let randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
     let newWord = word.toLowerCase(); // Start with the word itself, lowercase
 
@@ -18,7 +18,7 @@ function generateElvenWord(word) {
     // Apply suffix to the word
     newWord = newWord + randomSuffix;
 
-    // Rule 3: Apply consonant shifts subtly
+    // Rule 3: Apply consonant shifts subtly (for a smooth, elven feel)
     newWord = newWord.replace(/r/g, "l");  // "r" becomes "l"
     newWord = newWord.replace(/s/g, "v");  // "s" becomes "v"
     newWord = newWord.replace(/t/g, "th"); // "t" becomes "th"
