@@ -1,23 +1,43 @@
-// Function to apply vowel and consonant transformations for Norian
+// New transformation rules
 function transformWord(word) {
-    // Apply vowel transformations (a -> ae, e -> ei, o -> ou)
-    word = word.replace(/a/g, "ae").replace(/e/g, "ei").replace(/o/g, "ou");
-
-    // Apply basic suffix transformations
-    if (word.endsWith("ing")) {
-        word = word.replace(/ing$/, "iel"); // "running" -> "runiel"
-    } else if (word.endsWith("ed")) {
-        word = word.replace(/ed$/, "iel"); // "jumped" -> "jumpiel"
-    } else if (word.endsWith("s")) {
-        word = word + "vian"; // "dog" -> "dogvian"
-    } else {
-        word = word + "iel"; // Default transformation for other words
+    // List of common words to avoid transforming (these are kept simpler)
+    const commonWords = ["a", "the", "is", "are", "was", "were", "it", "of", "and", "to", "in"];
+    if (commonWords.includes(word.toLowerCase())) {
+        return word;  // Keep common words unchanged
     }
+
+    // Apply vowel and consonant transformations
+    word = word.replace(/a/g, "ae")
+               .replace(/e/g, "ei")
+               .replace(/i/g, "ai")
+               .replace(/o/g, "ou")
+               .replace(/u/g, "ou");
+
+    // Simplify consonant clusters
+    word = word.replace(/sh/g, "s")
+               .replace(/th/g, "t")
+               .replace(/ch/g, "k");
+
+    // Handling endings to distinguish noun, verb, and adjective forms
+    if (word.endsWith("ing")) {
+        word = word.replace(/ing$/, "ai"); // "running" -> "runai" (present tense verb)
+    } else if (word.endsWith("ed")) {
+        word = word.replace(/ed$/, "on"); // "walked" -> "walkon" (past tense verb)
+    } else if (word.endsWith("s")) {
+        word = word.replace(/s$/, "ar"); // "dog" -> "dogar" (noun)
+    } else {
+        word = word + "ir"; // Default transformation for adjectives
+    }
+
+    // Make the word fluid by removing certain redundant vowels or consonants
+    word = word.replace(/aiai/g, "ai")
+               .replace(/eiou/g, "ou")
+               .replace(/ee/g, "ei");
 
     return word;
 }
 
-// Function to translate a sentence into Norian based on rules
+// Function to translate a sentence into Norian based on the new rules
 function translateSentence(sentence) {
     const words = sentence.split(/\b/); // Split sentence by word boundaries (including punctuation)
     const translatedWords = words.map(word => {
@@ -36,6 +56,7 @@ function translateSentence(sentence) {
 
         return transformedWord;
     });
+
     return translatedWords.join("");
 }
 
@@ -51,7 +72,7 @@ function translateText() {
     const translatedSentences = sentences.map(sentence => {
         return translateSentence(sentence.trim());
     });
-    const translatedText = translatedSentences.join(" "); // Combine all translated sentences
 
+    const translatedText = translatedSentences.join(" "); // Combine all translated sentences
     document.getElementById("outputText").innerText = translatedText;
 }
