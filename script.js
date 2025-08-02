@@ -26,6 +26,35 @@ const verbTenses = {
     "see": "varel"
 };
 
+// Function to generate a "Norian" word for unknown words
+function generateElvenWord(word) {
+    // Rule 1: Add a suffix for unknown words
+    let newWord = word.toLowerCase() + "iel"; // Elven-style suffix "-iel"
+
+    // Rule 2: Modify the word to make it sound more "elven"
+    // Change vowels to make it sound more melodic (vowel harmony)
+    newWord = newWord.replace(/[aeiou]/g, (match) => {
+        if (match === "a") return "e"; // "a" becomes "e" for melodic sound
+        if (match === "e") return "i"; // "e" becomes "i" to smooth it
+        if (match === "o") return "a"; // "o" becomes "a" to soften it
+        if (match === "u") return "o"; // "u" becomes "o" for a rounded sound
+        return match;
+    });
+
+    // Rule 3: Modify consonants to add elegance
+    // Replace harder consonants with softer ones like "l", "v", or "r"
+    newWord = newWord.replace(/r/g, "l");  // Soft "r" to "l"
+    newWord = newWord.replace(/t/g, "th"); // Hard "t" to "th"
+    newWord = newWord.replace(/s/g, "v");  // Soft "s" to "v"
+
+    // Rule 4: Capitalize the first letter if the original word was capitalized
+    if (word.charAt(0) === word.charAt(0).toUpperCase()) {
+        newWord = newWord.charAt(0).toUpperCase() + newWord.slice(1);
+    }
+
+    return newWord;
+}
+
 // Function to translate text
 function translateText() {
     let inputText = document.getElementById('inputText').value; // Get the input text
@@ -45,12 +74,7 @@ function translateText() {
         let wordLower = word.toLowerCase();
 
         // Translate each word using the dictionary and verb tenses
-        let translatedWord = dictionary[wordLower] || verbTenses[wordLower] || word;
-
-        // If the original word was capitalized, preserve the capitalization in the translated word
-        if (word.charAt(0) === word.charAt(0).toUpperCase()) {
-            translatedWord = translatedWord.charAt(0).toUpperCase() + translatedWord.slice(1);
-        }
+        let translatedWord = dictionary[wordLower] || verbTenses[wordLower] || generateElvenWord(word);
 
         // Append the punctuation back to the translated word
         translatedWords.push(translatedWord + punctuation);
